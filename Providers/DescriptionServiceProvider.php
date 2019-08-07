@@ -42,11 +42,15 @@ class DescriptionServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('description.php'),
+            __DIR__ . '/../Config/config.php' => config_path('description.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'description'
+            __DIR__ . '/../Config/config.php', 'description'
         );
+
+        $this->publishes([
+            __DIR__ . '/../config.php' => moduleConfigPath('descriptionConfig.php'),
+        ], 'configJson');
     }
 
     /**
@@ -58,11 +62,11 @@ class DescriptionServiceProvider extends ServiceProvider
     {
         $viewPath = resource_path('views/modules/description');
 
-        $sourcePath = __DIR__.'/../Resources/views';
+        $sourcePath = __DIR__ . '/../Resources/views';
 
         $this->publishes([
             $sourcePath => $viewPath
-        ],'views');
+        ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
             return $path . '/modules/description';
@@ -81,7 +85,7 @@ class DescriptionServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, 'description');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'description');
+            $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'description');
         }
     }
 
@@ -92,7 +96,7 @@ class DescriptionServiceProvider extends ServiceProvider
      */
     public function registerFactories()
     {
-        if (! app()->environment('production')) {
+        if (!app()->environment('production')) {
             app(Factory::class)->load(__DIR__ . '/../Database/factories');
         }
     }
